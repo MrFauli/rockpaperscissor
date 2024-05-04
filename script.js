@@ -7,8 +7,8 @@ let PlayerScore = 0;
 function getComputerChoice(pos){
     return pos[Math.floor(Math.random() * 3)]
 }
-function playRound(){
-    let ErgebnisPlayer = prompt("Scissor, Rock, Paper")
+function playRound(ErgebnisPlayer){
+    
     let ErgebnisComputer = getComputerChoice(pos);
    if(ErgebnisComputer.toUpperCase() == "ROCK" && ErgebnisPlayer.toUpperCase() == "SCISSOR"){
     Winner = "Computer"; }
@@ -34,25 +34,55 @@ function playRound(){
         ComScore += 1;
     }
     else{
-        Win = "Nobody Wons!"
+        Win = "Nobody Wons!";
     }
-    return Win
-}
-function playGame(){
-    for ( let i = 0; i < 5; i++){
-        console.log(playRound())
-        
+    return Win;
+};
+function playGame(ErgebnisPlayer){
+    
+    ergebnis_runde.textContent = playRound(ErgebnisPlayer);
+    container.appendChild(ergebnis_runde);
+    if(PlayerScore >= 5){
+        punkte.textContent ="You  finally Won with " + PlayerScore+ " : " + ComScore;
+        ComScore = 0;
+        PlayerScore = 0;
     }
-    if(PlayerScore > ComScore){
-        console.log("You Won " + PlayerScore+ " : " + ComScore);
+    else if(ComScore >=5){
+        punkte.textContent ="Sorry, but you lost with " + PlayerScore+ " : " + ComScore;
+        ComScore = 0;
+        PlayerScore = 0;
+    }
+        else if(PlayerScore > ComScore){
+        punkte.textContent ="You Won " + PlayerScore+ " : " + ComScore;
+
     }
     else if(ComScore > PlayerScore){
-        console.log("You Lose " + PlayerScore+ " : " + ComScore);
+        punkte.textContent ="You Lose " + PlayerScore+ " : " + ComScore;
     }
     else{
-        console.log("Nobody Wons "+ PlayerScore+ " : " + ComScore)
+        punkte.textContent ="Nobody Wons "+ PlayerScore+ " : " + ComScore;
     }
-}
-playGame()
+    container.appendChild(punkte);
+    return ergebnis_runde;
+};
+ 
+const rock_button = document.querySelector("#rock");
+const paper_button = document.querySelector("#paper");
+const scissor_button = document.querySelector("#scissor");
+const container = document.querySelector("#container");
+let punkte = document.createElement("p");
+    let ergebnis_runde = document.createElement("p");
+
+    
+rock_button.addEventListener("click", () => { 
+    playGame("Rock");
+});
+paper_button.addEventListener("click", () => {
+    playGame("Paper");
+});
+scissor_button.addEventListener("click", () => {
+    playGame("Scissor");
+});
+
 
 
